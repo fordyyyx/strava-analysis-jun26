@@ -58,7 +58,27 @@ strava-analysis-jun26/
 **Question:** For runs only, has my aerobic fitness improved over time - specifically, at the same level of effort has my pace or distance increased year on year
 
 **Approach:** Firstly I removed any anomalous or unreliable data (any overly slow runs or months with less than 3 runs in) and calculated paces to give a comparable metric. Then averaged these paces and heart rates out
-over the months to give us comparable time periods. Finally I calculated an efficiency score.
+over the months to give us comparable time periods. Finally I calculated an efficiency score which attempted to score each month by taking the reciprocal of the average pace multiplied by the heart rate i.e. higher heart rates and higher (slower) paces cause lower scores.
+
+**Findings:**
+
+| Month | Runs | Avg Pace (mins/km) | Avg HR | Efficiency Score |
+|-------|------|--------------------|--------|------------------|
+| 2023-04 | 16 | 6.10               | 178.2  | 9.20             |
+| 2025-07 |  9 | 7.26               | 168.8  | 8.16             |
+| 2025-08 | 19 | 6.57               | 163.4  | 9.31             |
+| 2025-09 | 10 | 6.46               | 164.9  | 9.39             |
+| 2025-10 |  7 | 6.62               | 157.4  | 9.60             |
+| 2025-11 |  5 | 7.11               | 162.2  | 8.67             |
+| 2025-12 |  5 | 6.34               | 177.0  | 8.91             |
+| 2026-01 |  6 | 6.84               | 167.3  | 8.74             |
+| 2026-02 |  6 | 6.87               | 165.8  | 8.78             |
+| 2026-03 |  8 | 6.88               | 161.4  | 9.01             |
+| 2026-04 |  5 | 7.05               | 164.8  | 8.61             |
+| 2026-05 |  8 | 6.74               | 168.9  | 8.78             |
+| 2026-06 | 10 | 6.24               | 163.5  | 9.80             |
+
+**Key insight:** 
 
 *Further analyses in progress — activity mix by season, and training consistency patterns.*
 
