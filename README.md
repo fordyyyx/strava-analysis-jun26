@@ -53,7 +53,14 @@ strava-analysis-jun26/
 
 ---
 
-*Further analyses in progress — fitness trend over time, activity mix by season, and training consistency patterns.*
+### 02 Fitness Trend
+
+**Question:** For runs only, has my aerobic fitness improved over time - specifically, at the same level of effort has my pace or distance increased year on year
+
+**Approach:** Firstly I removed any anomalous or unreliable data (any overly slow runs or months with less than 3 runs in) and calculated paces to give a comparable metric. Then averaged these paces and heart rates out
+over the months to give us comparable time periods. Finally I calculated an efficiency score.
+
+*Further analyses in progress — activity mix by season, and training consistency patterns.*
 
 ## Setup
 
