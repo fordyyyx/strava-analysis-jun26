@@ -16,7 +16,7 @@ Raw activity data was exported from Strava and loaded into a PostgreSQL database
 
 - **228 total activities** across 6 sport categories
 - **Date range:** March 2023 — June 2026
-- **Source:** Strava bulk data export (activities.csv, 103 columns)
+- **Source:** Strava bulk data export (activities.csv, 103 columns), plus a WHOOP export (physiological_cycles.csv) for resting heart rate in analysis 03. Raw data files are never committed.
 - **Key metrics used:** average heart rate, max heart rate, relative effort, moving time, distance, calories
 
 ## Repository Structure
@@ -25,10 +25,14 @@ Raw activity data was exported from Strava and loaded into a PostgreSQL database
 strava-analysis-jun26/
 ├── README.md
 ├── schema/
-│   ├── 01_create_tables.sql       # Table definitions for activities, bikes, shoes
-│   └── 02_load_data.sql           # Staging table approach to handle duplicate CSV headers
+│   ├── 01_create_tables.sql            # Table definitions for activities, bikes, shoes
+│   ├── 02_load_data.sql                # Staging table approach to handle duplicate CSV headers
+│   ├── 03_create_activities_short.sql  # Leaner working table: minutes, km and sport categories
+│   └── 04_create_whoop_cycles.sql      # WHOOP recovery, resting heart rate and sleep data
 └── analysis/
-    └── 01_cross_sport_effort.sql  # Cross-sport intensity comparison
+    ├── 01_cross_sport_effort.sql       # Cross-sport intensity comparison
+    ├── 02_fitness_trend.sql            # Monthly running pace, heart rate and efficiency
+    └── 03_hrr_fitness_trend.sql        # Running effort as a share of heart rate reserve
 ```
 
 ## Analyses
@@ -78,7 +82,15 @@ over the months to give us comparable time periods. Finally I calculated an effi
 | 2026-05 |  8 | 6.74               | 168.9  | 8.78             |
 | 2026-06 | 10 | 6.24               | 163.5  | 9.80             |
 
-**Key insight:** 
+**Key insight:** A consistently higher volume of runs showed a general increase in the efficiency score, indicating an improvement in cardiovascular fitness.
+
+---
+
+### 03 — Fitness Trend Using Heart Rate Reserve
+
+**Approach:** Average heart rate on its own doesn't account for changes in resting heart rate. This analysis joins each run to the matching WHOOP cycle and measures effort as a percentage of heart rate reserve (%HRR): how much of the range between resting and maximum heart rate the run used. Maximum heart rate is estimated as 220 minus age on the day of the run.
+
+**Findings:** In progress.
 
 *Further analyses in progress — activity mix by season, and training consistency patterns.*
 
@@ -91,3 +103,6 @@ To recreate this database locally:
 3. Run `schema/01_create_tables.sql` to create the tables
 4. Update the file paths in `schema/02_load_data.sql` to point to your local export folder
 5. Run `schema/02_load_data.sql` to load the data
+6. Run `schema/03_create_activities_short.sql` to create the working table used by the analyses
+7. For analysis 03 only: update the file path in `schema/04_create_whoop_cycles.sql` to point to your WHOOP export (physiological_cycles.csv), then run it
+8. Run the queries in `analysis/`. `03_hrr_fitness_trend.sql` asks for `birth_date` when it runs in DBeaver; enter it in quotes, e.g. `'2000-01-31'`

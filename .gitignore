@@ -2,3 +2,6 @@
 StravaDataJun26/
 whoopdata/
 physiological_cycles.csv
+
+# macOS folder settings
+.DS_Store

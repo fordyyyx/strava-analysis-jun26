@@ -8,7 +8,9 @@ WITH runs_with_rhr AS (
         w.resting_heart_rate,
         w.recovery_score,
         w.hrv,
-        -- dynamic max HR based on age at time of activity
+        -- dynamic max HR based on age at time of activity. birth_date is a
+        -- parameter: DBeaver asks for it when the query runs, so it's never
+        -- stored in the repository. Enter it in quotes, e.g. '2000-01-31'
         (220 - DATE_PART('year', AGE(a.activity_date, CAST(:birth_date AS date))))::numeric AS max_hr
     FROM activities_short a
     LEFT JOIN whoop_cycles w
